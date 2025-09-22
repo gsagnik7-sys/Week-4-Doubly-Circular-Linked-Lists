@@ -1,0 +1,50 @@
+Python-->
+class Solution:
+    def delPos(self, head, x):
+        if not head:
+            return None
+        curr = head
+        if x == 1:
+            head = curr.next
+            if head:  
+                head.prev = None
+            return head
+        count = 1
+        while curr and count < x:
+            curr = curr.next
+            count += 1
+        if not curr:
+            return head
+        if curr.prev:
+            curr.prev.next = curr.next
+        if curr.next:
+            curr.next.prev = curr.prev
+        return head
+
+
+c-->
+struct Node* delPos(struct Node* head, int x) {
+    if (head == NULL)
+        return NULL;
+    struct Node* curr = head;
+    if (x == 1) {
+        head = curr->next;
+        if (head != NULL)
+            head->prev = NULL;
+        free(curr);
+        return head;
+    }
+    int count = 1;
+    while (curr != NULL && count < x) {
+        curr = curr->next;
+        count++;
+    }
+    if (curr == NULL)
+        return head;
+    if (curr->prev != NULL)
+        curr->prev->next = curr->next;
+    if (curr->next != NULL)
+        curr->next->prev = curr->prev;
+    free(curr);
+    return head;
+}
