@@ -1,0 +1,51 @@
+Python -->
+class Solution:
+    def flatten(self, root):
+        if not root or not root.next:
+            return root
+        root.next = self.flatten(root.next)
+        root = self.merge(root, root.next)
+        return root
+    def merge(self, a, b):
+        if not a:
+            return b
+        if not b:
+            return a
+        if a.data < b.data:
+            result = a
+            result.bottom = self.merge(a.bottom, b)
+        else:
+            result = b
+            result.bottom = self.merge(a, b.bottom)
+        result.next = None  # Ensure next pointer is ignored
+        return result
+
+
+
+c-->
+struct Node {
+    int data;
+    struct Node* next;
+    struct Node* bottom;
+};
+struct Node* merge(struct Node* a, struct Node* b) {
+    if (a == NULL) return b;
+    if (b == NULL) return a;
+    struct Node* result;
+    if (a->data < b->data) {
+        result = a;
+        result->bottom = merge(a->bottom, b);
+    } else {
+        result = b;
+        result->bottom = merge(a, b->bottom);
+    }
+    result->next = NULL;  
+    return result;
+}
+struct Node* flatten(struct Node* root) {
+    if (root == NULL || root->next == NULL)
+        return root;
+    root->next = flatten(root->next);
+    root = merge(root, root->next);
+    return root;
+}
