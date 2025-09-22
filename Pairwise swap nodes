@@ -1,0 +1,44 @@
+Python -->
+class Solution:    
+    def pairWiseSwap(self, head):
+        if head is None or head.next is None:
+            return head
+        new_head = head.next
+        prev = None
+        curr = head
+        while curr and curr.next:
+            nxt = curr.next
+            next_pair = nxt.next
+            nxt.next = curr
+            curr.next = next_pair
+            if prev:
+                prev.next = nxt
+            prev = curr
+            curr = next_pair
+        return new_head
+
+
+
+c-->
+struct Node {
+    int data;
+    struct Node* next;
+};
+struct Node* pairWiseSwap(struct Node* head) {
+    if (head == NULL || head->next == NULL)
+        return head;
+    struct Node* new_head = head->next;
+    struct Node* prev = NULL;
+    struct Node* curr = head;
+    while (curr != NULL && curr->next != NULL) {
+        struct Node* nxt = curr->next;
+        struct Node* next_pair = nxt->next;
+        nxt->next = curr;
+        curr->next = next_pair;
+        if (prev != NULL)
+            prev->next = nxt;
+        prev = curr;
+        curr = next_pair;
+    }
+    return new_head;
+}
