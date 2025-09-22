@@ -1,0 +1,55 @@
+Python-->
+class Solution:
+    def sortedInsert(self, head, x):
+        new_node = Node(x)
+        if not head:
+            return new_node
+        if x <= head.data:
+            new_node.next = head
+            head.prev = new_node
+            return new_node
+        curr = head
+        while curr.next and curr.data < x:
+            curr = curr.next
+        if curr.data >= x:
+            prev_node = curr.prev
+            prev_node.next = new_node
+            new_node.prev = prev_node
+            new_node.next = curr
+            curr.prev = new_node
+        else:
+            # Insert at the end
+            curr.next = new_node
+            new_node.prev = curr
+        return head
+
+
+
+c-->
+struct Node* sortedInsert(struct Node* head, int x) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    newNode->data = x;
+    newNode->prev = newNode->next = NULL;
+    if (head == NULL)
+        return newNode;
+    if (x <= head->data) {
+        newNode->next = head;
+        head->prev = newNode;
+        return newNode;
+    }
+    struct Node* curr = head;
+    while (curr->next != NULL && curr->data < x) {
+        curr = curr->next;
+    }
+    if (curr->data >= x) {
+        struct Node* prevNode = curr->prev;
+        prevNode->next = newNode;
+        newNode->prev = prevNode;
+        newNode->next = curr;
+        curr->prev = newNode;
+    } else {
+        curr->next = newNode;
+        newNode->prev = curr;
+    }
+    return head;
+}
