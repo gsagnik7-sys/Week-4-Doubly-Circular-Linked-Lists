@@ -1,0 +1,62 @@
+Python -->
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+class Solution:
+    def sortedInsert(self, head, data):
+        new_node = Node(data)
+        if not head:
+            new_node.next = new_node
+            return new_node
+        current = head
+        while True:
+            if current.data <= data <= current.next.data:
+                break
+            if current.data > current.next.data and (data >= current.data or data <= current.next.data):
+                break
+            current = current.next
+            if current == head:
+                break
+        new_node.next = current.next
+        current.next = new_node
+        if data < head.data:
+            return new_node
+        return head
+
+
+
+c -->
+#include <stdio.h>
+#include <stdlib.h>
+struct Node {
+    int data;
+    struct Node* next;
+};
+struct Node* newNode(int data) {
+    struct Node* node = (struct Node*)malloc(sizeof(struct Node));
+    node->data = data;
+    node->next = node;
+    return node;
+}
+struct Node* sortedInsert(struct Node* head, int data) {
+    struct Node* node = newNode(data);
+    if (head == NULL)
+        return node;
+    struct Node* current = head;
+    while (1) {
+        if (current->data <= data && data <= current->next->data)
+            break;
+        if (current->data > current->next->data &&
+            (data >= current->data || data <= current->next->data))
+            break
+        current = current->next;
+        if (current == head)
+            break;
+    }
+    node->next = current->next;
+    current->next = node;
+    if (data < head->data)
+        return node;  
+    return head;
+}
